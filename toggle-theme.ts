@@ -3,6 +3,7 @@
 // Description: Toggle between light / dark theme in Windows 11
 
 import { $ } from "bun"
+import { spawn } from "child_process"
 
 const themeInformation = "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize"
 
@@ -16,6 +17,15 @@ console.log(currentTheme)
 
 const themeValue = currentTheme.match(/0x(\d)/)
 
+async function restartExplorer() {
+  try {
+    await $`taskkill /f /im explorer.exe`
+  } catch (e) {
+    console.error(e)
+  }
+  spawn("explorer.exe", { detached: true, stdio: "ignore" }).unref()
+}
+
 // Toggle the theme
 
 if (themeValue?.[1] === "0") {
@@ -27,3 +37,4 @@ else {
   await $`reg add "${themeInformation}" /v "SystemUsesLightTheme" /t REG_DWORD /d 0 /f`
 }
 
+await restartExplorer()
