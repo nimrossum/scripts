@@ -3,7 +3,7 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "build": "bun build --compile ./toggle-theme.ts --windows-icon=./moon.ico"
+    "build": "bun build --compile ./toggle-theme.ts --windows-hide-console --windows-icon=./moon.ico"
   },
   "devDependencies": {
     "@types/bun": "latest"
